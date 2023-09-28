@@ -409,7 +409,7 @@ class ConstructorResolver {
 				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName,
 						"factory-bean reference points back to the same bean definition");
 			}
-			factoryBean = this.beanFactory.getBean(factoryBeanName);
+			factoryBean = this.beanFactory.getBean(factoryBeanName); 
 			if (mbd.isSingleton() && this.beanFactory.containsSingleton(beanName)) {
 				throw new ImplicitlyAppearedSingletonException();
 			}
@@ -468,7 +468,7 @@ class ConstructorResolver {
 			}
 			if (candidates == null) {
 				candidates = new ArrayList<>();
-				Method[] rawCandidates = getCandidateMethods(factoryClass, mbd);
+				Method[] rawCandidates = getCandidateMethods(factoryClass, mbd); //拿到方法
 				for (Method candidate : rawCandidates) {
 					if ((!isStatic || isStaticCandidate(candidate, factoryClass)) && mbd.isFactoryMethod(candidate)) {
 						candidates.add(candidate);
@@ -484,7 +484,7 @@ class ConstructorResolver {
 						mbd.resolvedConstructorOrFactoryMethod = uniqueCandidate;
 						mbd.constructorArgumentsResolved = true;
 						mbd.resolvedConstructorArguments = EMPTY_ARGS;
-					}
+					} //instantiate() 创建Bean实例
 					bw.setBeanInstance(instantiate(beanName, mbd, factoryBean, uniqueCandidate, EMPTY_ARGS));
 					return bw;
 				}

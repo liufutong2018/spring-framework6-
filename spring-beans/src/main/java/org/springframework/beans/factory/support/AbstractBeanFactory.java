@@ -194,7 +194,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	// Implementation of BeanFactory interface
 	//---------------------------------------------------------------------
 
-	@Override
+	@Override // 获取bean实例
 	public Object getBean(String name) throws BeansException {
 		return doGetBean(name, null, null, false);
 	}
@@ -234,7 +234,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * not for actual use
 	 * @return an instance of the bean
 	 * @throws BeansException if the bean could not be created
-	 */
+	 */ // 获取bean实例
 	@SuppressWarnings("unchecked")
 	protected <T> T doGetBean(
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
@@ -243,7 +243,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		String beanName = transformedBeanName(name);
 		Object beanInstance;
 
-		// Eagerly check singleton cache for manually registered singletons.
+		// 【获取单例bean】【解决循环依赖】Eagerly check singleton cache for manually registered singletons.
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
@@ -286,7 +286,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 
-			if (!typeCheckOnly) {
+			if (!typeCheckOnly) { //标记该bean为已经创建状态
 				markBeanAsCreated(beanName);
 			}
 
@@ -318,10 +318,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					}
 				}
 
-				// Create bean instance.
-				if (mbd.isSingleton()) {
+				// 是单例的。 Create bean instance.
+				if (mbd.isSingleton()) { //【获取】
 					sharedInstance = getSingleton(beanName, () -> {
-						try {
+						try { //【创建】
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {

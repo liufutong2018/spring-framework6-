@@ -231,7 +231,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					this.suppressedExceptions = new LinkedHashSet<>();
 				}
 				try {
-					singletonObject = singletonFactory.getObject();
+					singletonObject = singletonFactory.getObject(); // 获取单实例bean对象
 					newSingleton = true;
 				}
 				catch (IllegalStateException ex) {
@@ -256,7 +256,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					}
 					afterSingletonCreation(beanName);
 				}
-				if (newSingleton) {
+				if (newSingleton) { //加入
 					addSingleton(beanName, singletonObject);
 				}
 			}

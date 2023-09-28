@@ -961,15 +961,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Trigger initialization of all non-lazy singleton beans...
 		for (String beanName : beanNames) {
-			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
-			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
-				if (isFactoryBean(beanName)) {
+			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName); //获取BeanDefinition
+			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) { //不是抽象、是单实例、不是懒加载
+				if (isFactoryBean(beanName)) { //是FactoryBean？ 工厂bean
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof SmartFactoryBean<?> smartFactoryBean && smartFactoryBean.isEagerInit()) {
 						getBean(beanName);
 					}
 				}
-				else {
+				else { //不是工厂bean，普通bean 初始化。
 					getBean(beanName);
 				}
 			}
@@ -989,7 +989,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 
 	//---------------------------------------------------------------------
-	// Implementation of BeanDefinitionRegistry interface
+	// Implementation of BeanDefinitionRegistry interface 。注册bean定义信息
 	//---------------------------------------------------------------------
 
 	@Override
@@ -1059,7 +1059,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
 				synchronized (this.beanDefinitionMap) {
-					this.beanDefinitionMap.put(beanName, beanDefinition);
+					this.beanDefinitionMap.put(beanName, beanDefinition); //注册 beanDefinition
 					List<String> updatedDefinitions = new ArrayList<>(this.beanDefinitionNames.size() + 1);
 					updatedDefinitions.addAll(this.beanDefinitionNames);
 					updatedDefinitions.add(beanName);
@@ -1069,7 +1069,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 			else {
 				// Still in startup registration phase
-				this.beanDefinitionMap.put(beanName, beanDefinition);
+				this.beanDefinitionMap.put(beanName, beanDefinition); //注册 beanDefinition
 				this.beanDefinitionNames.add(beanName);
 				removeManualSingletonName(beanName);
 			}

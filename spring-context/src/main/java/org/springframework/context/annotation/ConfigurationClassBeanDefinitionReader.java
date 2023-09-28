@@ -123,7 +123,7 @@ class ConfigurationClassBeanDefinitionReader {
 
 	/**
 	 * Read a particular {@link ConfigurationClass}, registering bean definitions
-	 * for the class itself and all of its {@link Bean} methods.
+	 * for the class itself and all of its {@link Bean} methods.  加载配置类中的Bean定义
 	 */
 	private void loadBeanDefinitionsForConfigurationClass(
 			ConfigurationClass configClass, TrackedConditionEvaluator trackedConditionEvaluator) {
@@ -141,7 +141,7 @@ class ConfigurationClassBeanDefinitionReader {
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
-			loadBeanDefinitionsForBeanMethod(beanMethod);
+			loadBeanDefinitionsForBeanMethod(beanMethod); //加载@Bean定义的方法的BeanDefinition
 		}
 
 		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());
@@ -274,7 +274,7 @@ class ConfigurationClassBeanDefinitionReader {
 			logger.trace(String.format("Registering bean definition for @Bean method %s.%s()",
 					configClass.getMetadata().getClassName(), beanName));
 		}
-		this.registry.registerBeanDefinition(beanName, beanDefToRegister);
+		this.registry.registerBeanDefinition(beanName, beanDefToRegister); // 注册Bean定义
 	}
 
 	protected boolean isOverriddenByExistingDefinition(BeanMethod beanMethod, String beanName) {
